@@ -1,12 +1,3 @@
-<!--
- * @Author: TonyInBeijing
- * @Date: 2022-08-29 23:21:49
- * @LastEditors: TonyInBeijing
- * @LastEditTime: 2022-08-30 23:38:06
- * @FilePath: /my-doc/折腾记/野兽咆哮-HarleyDavidsonSportsterS.md
- * @Description: 
- * 
--->
 # 野兽咆哮！ Harley Davidson Sportster S 
 
 >这个夏天真的发生了太多太多事了，跟女朋友分开，卖车，颈椎病，海量福报等等，迫于搬砖维护个人博客实在是有心无力，nestjs 攻略也拖更了好久，先这里说一声抱歉。俗话说的好，有失就会有得，这篇就算重启拖更已久的博客～
@@ -23,12 +14,13 @@
 - 品牌还是很重要，质量得有保证，坏了有地儿修～
 - 外观拉风但不夸张，动力充裕但不暴躁，是一台新手进阶车～
   
+
 根据以上条件，前后看了好几台车
 
 ### *Ducati Street Fighter V4*
 一匹纯种意大利烈马，一眼望过去就很不好惹的样子，排气声浪炸裂，个人感觉就是杜卡迪旗舰跑车换了一套外壳,它大概长这个样子
 
-![](https://tva1.sinaimg.cn/large/e6c9d24ely1h5p63kysavj21400u0akj.jpg)
+![](https://static.yuehaowei.fun/static/blog-images/1/微信图片_202301152321481.jpg)
 
 全车欧林斯避震+布雷博卡钳真的让人垂涎三尺，不过考虑到它落地大概要27超出预算太多而且看上去是一台新手去世器，于是很不忍 pass 掉了
 
@@ -36,7 +28,7 @@
 
 杜卡迪街车里的小弟，落地大概 13 左右。虽然级别低但是劲头一点不减，短小精悍的车身 + 950 双杠发动机无愧于它 Monster 的名号，因为并没有试驾车而且路人眼里我骑这车有点骑狗的即视感，于是也 pass 掉了
 
-![](https://tva1.sinaimg.cn/large/e6c9d24ely1h5p69essj1j21400u0k14.jpg)
+![](https://static.yuehaowei.fun/static/blog-images/1/微信图片_202301152321483.jpg)
 
 ### *Triumph BONNEVILLE BOBBER*
 
@@ -44,13 +36,13 @@
 
 下图是一个靓仔已经做了一些改装的车，太帅～
 
-![](https://tva1.sinaimg.cn/large/e6c9d24ely1h5p6z53mgrj21400u07gd.jpg)
+![](https://static.yuehaowei.fun/static/blog-images/1/微信图片_202301152321484.jpg)
 
 ## 主角登场
 
 八达岭跑山间隙一张～
 
-![](https://tva1.sinaimg.cn/large/e6c9d24ely1h5p70ajmp1j21400u0qg4.jpg)
+![](https://static.yuehaowei.fun/static/blog-images/1/微信图片_20230115232148.jpg)
 
 这是一台看起来、听起来、骑起来都最不像哈雷的一台哈雷摩托车，引用某知名车评人的一句话-“这是一台配备强大动力和丰富电控系统的现代哈雷摩托车”。轮胎数据炸裂，尤其是前轮，使得这台车低俗过弯和掉头的时候很不灵活，在多弯的山路里表现的很挣扎，也有可能是我驾驶技术太烂，让我没有足够的信心去驯服这头猛兽。
 
