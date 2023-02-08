@@ -34,5 +34,64 @@ CDN 解决起这个问题也比较直接，在各地部署机房，然后把你�
 
 现在你有了 服务器、域名、证书，那就再充11块！买它 50GB 的境内 CDN 流量，足够你霍霍一阵了
 
+### 2. 配置 CDN
 
+![](https://static.yuehaowei.fun/static/blog-images/cdn/4.png)
 
+首先点击左面的 **域名管理**，然后点击添加域名，这个域名就是你需要加速的域名
+
+![](https://static.yuehaowei.fun/static/blog-images/cdn/5.png)
+
+- 加速域名不做赘述
+- 加速类型的话上面写的很清楚，如果主要是图片或者很久不改动的 html css js 等静态文件，那就选小文件
+- 源站配置这块需要说一下，**回源**是指用户访问资源时，CDN 上没有这个资源，那么就会去你的业务服务器上也就是源站上取。如果你跟我一样也是腾讯云全家桶，那么源站类型直接选自有源即可，源站地址可以直接写域名绑定的 IP，端口写业务运行的端口，权重暂时写100就可以
+
+![](https://static.yuehaowei.fun/static/blog-images/cdn/6.png)
+
+这一步是腾讯云根据你选择的加速类型自动生成的推荐配置，由于前一步选了 CDN 小文件，所以直接采用推荐配置即可，点击提交配置
+
+![](https://static.yuehaowei.fun/static/blog-images/cdn/7.png)
+
+这里体现出了腾讯云全家桶的好处👌在腾讯云购买的域名一般都会托管在 DNSPod 上，这里会直接查询到托管记录，直接一键配置就会省去很多麻烦，然后点击完成
+
+### 3.  预热
+
+恭喜🎉现在已经完成了 CDN 的配置，但我们还要测试一下，不要一顿操作猛如虎，一看战绩0-5😭那就真的很离谱，首先我们需要做的是先放一个测试图片到你自己的服务器上并且确定可以正常访问到
+
+比如说，你加速的域名是 xxx.yyy.com,这时候你要确保 xxx.yyy.com/test.png 这个资源可以正常访问即可
+
+然后我们提交一个预热任务
+
+![](https://static.yuehaowei.fun/static/blog-images/cdn/8.png)
+
+点击左面刷新预热，然后右面直接选择 URL 刷新，在输入框中输入你加速的域名，注意后面要加一个 “/”，这样会刷新整个站下的资源到 CDN 上，这个过程可能会耗费一点点🤏时间，可以点击操作记录查看刷新的进度
+
+### 4. 测试
+
+![](https://static.yuehaowei.fun/static/blog-images/cdn/9.png)
+
+测试的过程稍微有一丢丢繁琐
+
+- 首先点击左侧域名管理，这个时候看一下右面的域名列表，确保状态和CNAME配置都有绿色的小对勾✅然后把 CNAME 下面的那个地址复制下来
+
+- 然后打开电脑上的终端，ping 一下刚才复制的地址。下面主要用 macOS 来演示
+
+  ![](https://static.yuehaowei.fun/static/blog-images/cdn/10.png)这个时候就可以看到一个 IP 地址，这就是你 CDN 的 IP，别忘了这个也复制下来
+
+- 设置本地 HOSTS 文件。macOS 下在终端里输入 ```sudo vi /etc/hosts``` 输入密码后，把上面的 IP + **空格** + 你加速的域名（xxx.yyy.com）添加到文件中
+
+  ![](https://static.yuehaowei.fun/static/blog-images/cdn/11.png)
+
+  然后 ```:wq``` 保存并退出，这样就配置好了
+
+- 最后一步，打开浏览器，然后打开开发者工具，以 Chrome 浏览器为例按 ```F12``` 找到 Network， 输入资源地址 ```https://xxx.yyy.com/test.png```
+
+  ![](https://static.yuehaowei.fun/static/blog-images/cdn/12.png)
+
+  只要看到下面的 ```Remote Address``` 的 IP 跟上面 ping 到的 IP 相同，说明 CDN 配置成功～恭喜🎉
+
+  没有成功也不要紧，我之前不成功的原因是因为开了 VPN 😂 关掉以后就正常了，为了弥补写作水平不足还有 Windows 的小伙伴，直接上[腾讯云官方教程](https://cloud.tencent.com/document/product/228/74345)
+
+## 结语
+
+通过一番操作终于是成功配置好了自己的 CDN，我的初心是因为一开始写博客，图片用的一个传图工具叫做 iPic ，它跟 Typora 配合得很好，直接把本地图片拖进来就可以自动上传，但是它也是依赖一些第三方图床比如微博的，这就导致了一旦图床出了问题，之前的图片都找不到了，为了解决这个问题，我用 nestJS 写了一个静态资源服务，然后绑定了 CDN，妈妈再也不用担心丢图问题了～
