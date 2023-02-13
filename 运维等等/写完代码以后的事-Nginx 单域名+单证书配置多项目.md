@@ -48,3 +48,76 @@
 
 如果一切正常，你的 pm2 管理器的项目列表会出现刚才你配置的项目，注意端口号是系统自动读取你项目配置文件的端口号，如果你不配置 nginx 反向代理直接 IP + 端口访问的话，需要注意一下端口是否开放或者是否冲突
 
+## Nginx 配置前端项目
+
+当使用 pm2 部署好你的服务端以后，不要忘了先在本地开发环境把接口地址改一下，然后再把前端项目上传到服务器上，方法跟上面上传服务端项目相同
+
+**请注意！！！** 这时候在前端修改的服务端地址应该就是 域名+端口号的，改完以后前端页面会找不到接口地址，先不要着急，一步一步来。
+
+![网站](https://static.yuehaowei.fun/static/blog-images/Linux/7.png)
+
+当你下载安装完成 nginx 以后，点击左侧网站，右侧可以看到上方有项目的分类，前端网站选择 PHP项目即可，然后点击 **添加站点** 按钮
+
+![添加站点](https://static.yuehaowei.fun/static/blog-images/Linux/8.png)
+
+添加站点其实只需要配置两块内容：
+
+1. 域名-这个就靠从公司运维大哥那刷脸刷过来的，我的习惯是把80或者443端口给前端项目用，这样用户不会看到具体的端口名，也不会感到很奇怪，其他的端口用来跑服务端
+2. 根目录-就是前面上传前端项目的目录，这个不做赘述
+
+这时候直接点击提交即可～然后打开浏览器，把刚才配置的域名输入到浏览器中，这时候你应该可以看到项目加载出来但是功能并不能用，因为我们还没有配置服务端的反向代理
+
+## 使用 Nginx 反向代理服务端端实现 域名 + 端口号 访问接口
+
+![](https://static.yuehaowei.fun/static/blog-images/Linux/9.png)
+
+返回网站页面，点击 **设置** 按钮
+
+![](https://static.yuehaowei.fun/static/blog-images/Linux/10.png)
+
+点击左侧配置文件按钮，这个时候你的配置文件大概应该是这个样子的，如果你没有配置证书的话应该就是 80 端口这都不影响
+
+因为宝塔面板现在应该还不支持增加一个域名多个端口访问的网站，我试了好多次都没有实现，期待以后可以直接配置～
+
+只能修改配置文件如下
+
+```nginx
+server{
+  	listen 10001 ssl http2; # 10001 是自定义的端口号，需要根据自己情况填写
+    server_name xxx.yyy.com; # 这里填写你的域名
+    index index.php index.html index.htm default.php default.htm default.html;
+    #SSL-START SSL相关配置，请勿删除或修改下一行带注释的404规则
+    #error_page 404/404.html;
+    ssl_certificate    /www/server/panel/vhost/cert/xxx.yyy.com/fullchain.pem;
+    ssl_certificate_key    /www/server/panel/vhost/cert/xxx.yyy.com/privkey.pem;
+    ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    add_header Strict-Transport-Security "max-age=31536000";
+    error_page 497  https://$host$request_uri;
+		#SSL-END
+  
+  	# 配置反向代理
+    location / {
+    proxy_pass  http://127.0.0.1:8080; # 这里 8080 端口是 pm2 识别服务端项目配置的端口号，这里你也需要自己配置
+    proxy_set_header Host $proxy_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+}
+server{
+	# 上方自动生成的配置
+}
+```
+
+这样就配置成功了，其实如果没有配置证书的话上面的 SSL 配置就不存在～
+
+这个时候再打开浏览器输入前端项目地址，一切正常的话那就应该一切正常了哈哈哈
+
+## 注意的问题
+
+当发现访问不到接口或者打不开页面的时候，首先检查一下防火墙！首先云服务器那边控制台的入站规则要放开端口，然后宝塔面板也有一个防火墙，这里面也要放开端口！切记！
+
+![](https://static.yuehaowei.fun/static/blog-images/Linux/11.png)
