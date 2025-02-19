@@ -91,7 +91,8 @@ vim daemon.json
 # 3.拉取镜像
 docker pull ubuntu:22.04
 # 4.运行容器
-docker run -dit --name ubuntu_2204 -p 2222:22 --restart always ubuntu:22.04
+# --gpus all 命令可以调用宿主机的 nvidia-smi，如果你没有英伟达GPU/没有安装英伟达驱动请忽略
+docker run -dit --name --gpus all ubuntu_2204 -p 2222:22 --restart always ubuntu:22.04 
 # 5.进入容器
 docker exec -it ubuntu_2204 bash
 # 6.安装 curl 并测试代理工作状态
